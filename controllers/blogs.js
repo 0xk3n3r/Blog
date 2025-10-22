@@ -10,7 +10,7 @@ morgan.token('body', (req) => {
 })
 blogRouter.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 blogRouter.get('/', (request, response) => {
-  Bloglog.find({}).then(blogs => {
+  Blog.find({}).then(blogs => {
     response.json(blogs)
   })
 })
@@ -31,8 +31,10 @@ blogRouter.put('/:id', (request, response, next) => {
   const body = request.body
 
   const blog = {
-    name: body.name,
-    number: body.number,
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
   }
 
   Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
@@ -42,10 +44,14 @@ blogRouter.put('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogRouter.delete('/:id', (request, response) => {
+blogRouter.delete('/:id', (request, response, next) => {
   Blog.findByIdAndDelete(request.params.id)
   .then(result => {
-      response.status(204).end()
+      if (result) {
+        response.status(204).end()
+      } else {
+        response.status(404).json({ error: 'Blog not found' })
+      }
     })
     .catch(error => next(error))
 })
