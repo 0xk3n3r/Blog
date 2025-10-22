@@ -1,0 +1,40 @@
+GET http://localhost:3003/api/blogs/
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "My First Blog",
+    "author": "John Doe",
+    "url": "http://example.com/my-first-blog",
+    "likes": 10
+}
+
+###
+DELETE http://localhost:3001/api/blogs/68f95a8d79992cf44d00a384
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "My Second Blog",
+    "author": "Jane Smith",
+    "url": "http://example.com/my-second-blog",
+    "likes": 5
+}
+
+###
+PUT http://localhost:3003/api/blogs/68f95a8d79992cf44d00a384 HTTP/1.1
+content-type: application/json
+
+{   
+    "title": "Updated Blog Title",
+    "author": "John Doe",
+    "url": "http://example.com/updated-blog",
+    "likes": 15
+}
+
+###
+GET http://localhost:3003/api/blogs/68f95a8d79992cf44d00a384
