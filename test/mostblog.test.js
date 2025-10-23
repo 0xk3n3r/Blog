@@ -1,6 +1,7 @@
 const { test, describe } = require('node:test')
 const assert = require('assert')
 const { mostBlogs } = require('../utils/mostBlogs') 
+const { mostLikes } = require('../utils/mostLikes')
 
 describe('mostBlogs', () => {
   test('of a list with multiple blogs', () => {
@@ -40,5 +41,9 @@ describe('mostBlogs', () => {
     const result = mostBlogs(blogs)
     console.log('Test result:', result)
     assert.deepStrictEqual(result, { author: "Robert C. Martin", blogs: 3 })
+
+    const result2 = mostLikes(blogs)
+    console.log('Test mostLikes:', result2)
+    assert.deepStrictEqual(result2, { author: "Robert C. Martin", likes: 38 })
   })
 })
