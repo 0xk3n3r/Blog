@@ -29,9 +29,9 @@ describe('favorite blog', () => {
                 url: "https://example.com/go-to-statement",
                 likes: 5
             }
-        ];
+        ]
 
-        const favorite = favoriteBlog(blogs);
+        const favorite = favoriteBlog(blogs)
         assert.deepStrictEqual(favorite, {
             title: "Canonical string reduction",
             author: "Edsger W. Dijkstra",
