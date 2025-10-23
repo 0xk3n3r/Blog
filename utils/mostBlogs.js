@@ -1,27 +1,20 @@
+const _ = require('lodash');
+
 function mostBlogs(blogs) {
-  if (blogs.length === 0) {
-    return null;
+  if (_.isEmpty(blogs)) {
+    return null; 
   }
 
-  const authorCount = blogs.reduce((acc, blog) => {
-    acc[blog.author] = (acc[blog.author] || 0) + 1;
-    return acc;
-  }, {})
+  const groupedByAuthor = _.groupBy(blogs, 'author');
 
-  let maxBlogs = 0;
-  let authorWithMostBlogs = '';
+  const authorCounts = Object.entries(groupedByAuthor).map(([author, blogs]) => ({
+    author,
+    blogs: blogs.length
+  }));
 
-  for (const [author, count] of Object.entries(authorCount)) {
-    if (count > maxBlogs) {
-      maxBlogs = count;
-      authorWithMostBlogs = author;
-    }
-  }
+  const maxAuthor = _.maxBy(authorCounts, 'blogs');
 
-  return {
-    author: authorWithMostBlogs,
-    blogs: maxBlogs
-  }
+  return maxAuthor;
 }
 
 module.exports = { mostBlogs }
