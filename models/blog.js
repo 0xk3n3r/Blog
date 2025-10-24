@@ -2,8 +2,9 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config()
 mongoose.set('strictQuery', false)
+const { MONGODB_URI } = require('../utils/config')
 
-const url = process.env.MONGODB_URI
+const url = MONGODB_URI
 const port = process.env.PORT
 
 console.log('connecting to', url)
