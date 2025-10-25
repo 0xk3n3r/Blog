@@ -12,14 +12,14 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/68f95d067db7067bfb5a44ed
+DELETE http://localhost:3003/api/blogs/68fd585c8469ba3b7ceb41d9
 
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "My Second Blog",
+    "title": "My Second+ Blog",
     "author": "Jane Smith",
     "url": "http://example.com/my-second-blog",
     "likes": 5
@@ -30,7 +30,7 @@ PUT http://localhost:3003/api/blogs/68f95a8d79992cf44d00a384 HTTP/1.1
 content-type: application/json
 
 {   
-    "title": "Updated Blog Title",
+    "title": "Updated2 Blog Title",
     "author": "John Doe",
     "url": "http://example.com/updated-blog",
     "likes": 15
