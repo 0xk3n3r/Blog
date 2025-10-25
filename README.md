@@ -7,3 +7,6 @@ kill -9
 
 npm install --save-dev cross-env
 npm install --save-dev supertest
+
+
+npm test -- test/blog_api.test.js
