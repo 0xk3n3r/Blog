@@ -67,6 +67,41 @@ describe('when there is initially some blogs saved', () => {
     const contents = response.body.map(e => e.title)
     assert(contents.includes('Clean Code'))
   })
+
+  test.only('a valid blog can be added', async () => {
+    const newBlog = {
+      author: "New Author",
+      title: "New Blog Post",
+      url: "http://example.com/new-blog",
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map(b => b.title)
+    assert.strictEqual(response.body.length, initialBlogs.length + 1)
+    assert(titles.includes('New Blog Post'))
+  })
+
+  test.only('a blog without url or title is not added', async () => {
+    const invalidBlog = {
+      author: "Invalid Author",
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(invalidBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    assert.strictEqual(response.body.length, initialBlogs.length)
+  })
 })
 
 

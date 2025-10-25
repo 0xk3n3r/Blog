@@ -63,8 +63,11 @@ const generateId = () => {
 */
 
 blogRouter.post('/', async(request, response, next) => {
+  const { title, url } = request.body
+  if (!title || !url) {
+    return response.status(400).json({ error: 'Title and URL are required' })
+  }
   const blog = new Blog(request.body)
-
   try {
     const savedBlog = await blog.save()
     response.status(201).json(savedBlog)
