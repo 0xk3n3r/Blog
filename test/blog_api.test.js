@@ -95,6 +95,46 @@ describe('when there is initially some blogs saved', () => {
 
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
 })
+
+  test.only('blog object has an id property', async () => {
+    const ids = await helper.blogsIdList()
+
+    expect(ids.length).toBe(helper.initialBlogs.length)
+    ids.forEach(id => {
+      expect(id).toBeDefined()
+    })
+  })
+
+  test.only('likes property defaults to 0 if missing', async () => {
+    const newBlogWithoutLikes = {
+      title: 'Blog without likes',
+      author: 'Author',
+      url: 'http://example.com/no-likes'
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlogWithoutLikes)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+    assert.strictEqual(response.body.likes, 0)
+})
+
+test.only('updating a blog\'s likes', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updatedLikes = { likes: blogToUpdate.likes + 1 }
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedLikes)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.likes).toBe(blogToUpdate.likes + 1)
+})
+
 })
 
 

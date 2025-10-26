@@ -46,6 +46,11 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
+const blogsIdList = async () => {
+  const blogs = await blogsInDb();
+  return blogs.map(blog => blog.id);
+}
+
 module.exports = {
-  initialBlogs, nonExistingId, blogsInDb
+  initialBlogs, nonExistingId, blogsInDb, blogsIdList
 }
