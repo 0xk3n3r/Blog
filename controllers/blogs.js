@@ -42,16 +42,8 @@ blogRouter.put('/:id', async(request, response, next) => {
 })
 
 blogRouter.delete('/:id', async(request, response, next) => {
-  try {
-    const result = await Blog.findByIdAndDelete(request.params.id)
-    if (result) {
-      response.status(204).end()
-    } else {
-      response.status(404).json({ error: 'Blog not found' })
-    }
-  } catch (error) {
-    next(error)
-  }
+  await Blog.findByIdAndDelete(request.params.id)
+  response.status(204).end()
 })
 /*  Blog.findByIdAndDelete(request.params.id)
 const generateId = () => {
