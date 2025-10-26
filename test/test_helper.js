@@ -1,0 +1,51 @@
+const Blog = require('../models/blog')
+
+const initialBlogs = [
+  {
+    author: "Robert C. Martin",
+    title: "Clean Code",
+    url: "http://example.com/clean-code",
+    likes: 10
+  },
+  {
+    author: "Edsger W. Dijkstra",
+    title: "On the Art of Programming",
+    url: "http://example.com/art-programming",
+    likes: 15
+  },
+  {
+    author: "Robert C. Martin",
+    title: "The Clean Architecture",
+    url: "http://example.com/clean-architecture",
+    likes: 20
+  },
+  {
+    author: "Michael Chan",
+    title: "Some Blog",
+    url: "http://example.com/some-blog",
+    likes: 5
+  },
+  {
+    author: "Robert C. Martin",
+    title: "Refactoring",
+    url: "http://example.com/refactoring",
+    likes: 8
+  },
+]
+
+const nonExistingId = async () => {
+  const blog = new Blog({ title: 'willremovethissoon' })
+  await blog.save()
+  await blog.deleteOne()
+
+  return blog._id.toString()
+}
+
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs.map(blog => blog.toJSON())
+}
+
+module.exports = {
+  initialBlogs, nonExistingId, blogsInDb
+}
