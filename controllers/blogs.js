@@ -3,6 +3,14 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const morgan = require('morgan')
 require('dotenv').config()
+const jwt = require('jsonwebtoken')
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
 morgan.token('body', (req) => {
   if (req.method === 'POST' || req.method === 'PUT') {
     return JSON.stringify(req.body)
@@ -64,7 +72,13 @@ const generateId = () => {
 
 blogRouter.post('/', async(request, response, next) => {
   const body = request.body
-  const user = await User.findById(body.userId)
+  //const user = await User.findById(body.userId)
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  
   if (!body.title || !body.url || !body.author) {
     return response.status(400).json({ error: 'Title or author or URL are required' })
   }
