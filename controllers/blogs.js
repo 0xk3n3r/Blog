@@ -1,5 +1,6 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const morgan = require('morgan')
 require('dotenv').config()
 morgan.token('body', (req) => {
@@ -55,13 +56,22 @@ const generateId = () => {
 */
 
 blogRouter.post('/', async(request, response, next) => {
-  const { title, url } = request.body
-  if (!title || !url) {
-    return response.status(400).json({ error: 'Title and URL are required' })
+  const body = request.body
+  const user = await User.findById(body.userId)
+  if (!body.title || !body.url || !body.author) {
+    return response.status(400).json({ error: 'Title or author or URL are required' })
   }
-  const blog = new Blog(request.body)
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes || 0,
+    user: user.id
+  })
   try {
     const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
     response.status(201).json(savedBlog)
   } catch (error) {
     next(error)
