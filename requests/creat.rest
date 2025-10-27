@@ -12,7 +12,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/68fff2ee85c9ee4e9b74d5b7
+DELETE http://localhost:3003/api/blogs/68ffff3e58a3d17f2427e5b5
 
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
@@ -67,9 +67,9 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4ZmZlYjFjZTUxNzdhMzAyZTBkZjY1OSIsImlhdCI6MTc2MTYwNTU1NH0.glQfVbQnwom4xPsZe7l8EZBlLgKqxYT8KiDxphUcClY
 
 {
-    "title": "My Second+ Blog",
+    "title": "My Second+ Blog token 60s",
     "author": "Jane Smith",
     "url": "http://example.com/my-second-blog",
     "likes": 5,
-    "userId": "68ffeacee5177a302e0df651"
+    "userId": "18ffeacee5177a302e0df651"
 }
