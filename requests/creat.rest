@@ -12,7 +12,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/68f95d067db7067bfb5a44ed
+DELETE http://localhost:3003/api/blogs/68fff2ee85c9ee4e9b74d5b7
 
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
@@ -23,18 +23,19 @@ content-type: application/json
     "author": "Jane Smith",
     "url": "http://example.com/my-second-blog",
     "likes": 5,
-    "userId": "68ffeb1ce5177a302e0df659"
+    "userId": "68ffeacee5177a302e0df651"
 }
 
 ###
-PUT http://localhost:3003/api/blogs/68f95a8d79992cf44d00a384 HTTP/1.1
+PUT http://localhost:3003/api/blogs/68fff2ee85c9ee4e9b74d5b7 HTTP/1.1
 content-type: application/json
 
 {   
     "title": "Updated Blog Title",
     "author": "John Doe",
     "url": "http://example.com/updated-blog",
-    "likes": 15
+    "likes": 15,
+    "userId": "68ffeacee5177a302e0df651"
 }
 
 ###

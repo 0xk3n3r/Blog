@@ -11,7 +11,9 @@ morgan.token('body', (req) => {
 })
 blogRouter.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 blogRouter.get('/', async(request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog
+    .find({}).populate('user', { username: 1, name: 1 })
+
   response.json(blogs)
 })
 
@@ -26,16 +28,21 @@ blogRouter.get('/:id', async(request, response, next) => {
 
 blogRouter.put('/:id', async(request, response, next) => {
   const body = request.body
-
   const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+  }
+  let user = null
+  if (body.userId) {
+    user = await User.findById(body.userId)
   }
 
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    user.blogs = user.blogs.concat(updatedBlog._id)
+    await user.save()
     response.json(updatedBlog)
   } catch (error) {
     next(error)
