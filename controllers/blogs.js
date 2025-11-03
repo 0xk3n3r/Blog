@@ -49,8 +49,9 @@ blogRouter.put('/:id', async(request, response, next) => {
 
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-    user.blogs = user.blogs.concat(updatedBlog._id)
-    await user.save()
+    if (user) {
+      user.blogs = user.blogs.concat(updatedBlog._id)
+      await user.save()}
     response.json(updatedBlog)
   } catch (error) {
     next(error)
