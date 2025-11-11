@@ -1,22 +1,23 @@
-const morgan = require('morgan')
-const mongoose = require('mongoose')
-require('dotenv').config()
-mongoose.set('strictQuery', false)
-const { MONGODB_URI } = require('../utils/config')
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+require("dotenv").config();
+mongoose.set("strictQuery", false);
+const { MONGODB_URI } = require("../utils/config");
 
-const url = MONGODB_URI
-const port = process.env.PORT
+const url = MONGODB_URI;
+const port = process.env.PORT;
 
-console.log('connecting to', url)
+console.log("connecting to", url);
 
-mongoose.connect(url)
+mongoose
+  .connect(url)
 
-  .then(result => {
-    console.log('connected to MongoDB')
+  .then((result) => {
+    console.log("connected to MongoDB");
   })
-  .catch(error => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
+  .catch((error) => {
+    console.log("error connecting to MongoDB:", error.message);
+  });
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -24,19 +25,19 @@ const blogSchema = new mongoose.Schema({
   url: String,
   likes: {
     type: Number,
-    default: 0
+    default: 0,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-})
-blogSchema.set('toJSON', {
+    ref: "User",
+  },
+});
+blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
-module.exports = mongoose.model('Blog', blogSchema)
+module.exports = mongoose.model("Blog", blogSchema);
