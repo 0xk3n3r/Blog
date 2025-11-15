@@ -28,7 +28,7 @@ blogRouter.get("/", async (request, response) => {
 });
 
 blogRouter.get("/:id", async (request, response, next) => {
-  const blog = await Blog.findById(request.params.id);
+  const blog = await Blog.findById(request.params.id).populate('comments');
   if (blog) {
     response.json(blog);
   } else {
