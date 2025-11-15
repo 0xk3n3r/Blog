@@ -22,13 +22,13 @@ blogRouter.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body"),
 );
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 }).populate('comments', { comment: 1});
 
   response.json(blogs);
 });
 
 blogRouter.get("/:id", async (request, response, next) => {
-  const blog = await Blog.findById(request.params.id).populate('comments');
+  const blog = await Blog.findById(request.params.id).populate('comments', { comment: 1});
   if (blog) {
     response.json(blog);
   } else {
