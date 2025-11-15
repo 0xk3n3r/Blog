@@ -1,6 +1,7 @@
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const Comment = require('../models/comment');
 const morgan = require("morgan");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -116,5 +117,28 @@ blogRouter.get("/info", async (request, response) => {
     next(error);
   }
 });
+
+blogRouter.post('/:id/comments', async (request, response, next) => {
+  const body = request.body
+  console.log('Blogs: Body: body:', body)
+  console.log('Blogs: Body: Comments:', body.comment)
+  const commentID = request.params.id
+  console.log(' commentID:', commentID)
+  try {
+    const blog = await Blog.findById(request.params.id)
+    console.log('Blog id : Comments:', blog)
+    const comment = new Comment({
+      comment: body.comment,
+      blog: blog._id
+    })
+
+    const savedComment = await comment.save()
+    blog.comments.push(savedComment)
+    await blog.save()
+    response.status(201).json(savedComment)
+  } catch (exception) {
+    next(exception)
+  }
+})
 
 module.exports = blogRouter;
